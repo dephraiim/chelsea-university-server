@@ -1,10 +1,15 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const connectDb = require('./db/connect');
+const authRoute = require('./routes/auth');
 
+// Functions
 const app = express();
 connectDb();
 
-const authRoute = require('./routes/auth');
+// Middlewares
+app.use(bodyParser.json());
+app.use('/api/user', authRoute);
 
 app.get('/', (req, res) => {
   res.send('home page');
