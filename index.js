@@ -1,8 +1,10 @@
 const express = require('express');
-const app = express();
-const authRoute = require('./routes/auth');
+const connectDb = require('./db/connect');
 
-app.use('/api/user', authRoute);
+const app = express();
+connectDb();
+
+const authRoute = require('./routes/auth');
 
 app.get('/', (req, res) => {
   res.send('home page');
