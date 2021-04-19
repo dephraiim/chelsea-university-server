@@ -5,7 +5,11 @@ dotenv.config();
 
 // Connect to MongoDB
 module.exports = () => {
-  mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
-    console.log('Connected to MongoDB Atlas');
-  });
+  mongoose.connect(
+    process.env.DB_CONNECT,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => {
+      console.log('Connected to MongoDB Atlas');
+    }
+  );
 };
