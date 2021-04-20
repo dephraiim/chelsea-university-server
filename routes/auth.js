@@ -8,7 +8,7 @@ router.post('/register', async (req, res) => {
   // Validate Input
   const { error } = registerValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).json(error.details[0].message);
   }
 
   const emailExists = await User.findOne({ email: req.body.email });
@@ -38,19 +38,19 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).json(error.details[0].message);
   }
 
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send('Incorrect Email or Password');
+  if (!user) return res.status(400).json('Incorrect Email or Password');
 
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
-    return res.status(400).send('Incorrect Email or Password');
+    return res.status(400).json('Incorrect Email or Password');
 
   const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET);
 
-  res.header('auth-token', token).send(token);
+  res.header('auth-token', token).json(token);
 });
 
 module.exports = router;
